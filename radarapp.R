@@ -21,7 +21,8 @@ ui <- fluidPage(
     ), 
     mainPanel(
       tabsetPanel(
-        tabPanel("Plot", h3("Rates for different crimes in five boroughs"), plotOutput(outputId = "radar")) 
+        tabPanel("Plot", h3("Rates for different crimes in five boroughs"), plotOutput(outputId = "radar")), 
+        tabPanel("Table", tableOutput(outputId = "table"))
       )
     )
   )
@@ -46,6 +47,10 @@ server <- function(input, output){
     tb <- make_radar_tb(input$borough_name)
     radarchart(tb)
   })
+  
+  output$table <- renderTable({
+    return(make_radar_tb(input$borough_name))
+  })  
 }
 
 shinyApp(ui = ui, server = server)
